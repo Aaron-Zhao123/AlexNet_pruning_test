@@ -163,9 +163,9 @@ def distorted_inputs():
   # return cifar10_input.distorted_inputs(data_dir=data_dir,
   #                                       batch_size=FLAGS.batch_size)
   return cifar10_imagenet.distorted_inputs(
-                                        dataset,
-                                        batch_size=FLAGS.batch_size,
-                                        num_preprocess_threads=FLAGS.num_preprocess_threads)
+    dataset,
+    batch_size=FLAGS.batch_size,
+    num_preprocess_threads=FLAGS.num_preprocess_threads)
 
 #
 # def inputs(eval_data):
