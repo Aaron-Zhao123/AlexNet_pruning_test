@@ -158,7 +158,7 @@ def distorted_inputs():
   assert dataset.data_files()
   if tf.gfile.Exists(FLAGS.train_dir):
     tf.gfile.DeleteRecursively(FLAGS.train_dir)
-  tf.gfile.Makedirs(FLAGS.train_dir)
+  tf.gfile.MakeDirs(FLAGS.train_dir)
 
   # return cifar10_input.distorted_inputs(data_dir=data_dir,
   #                                       batch_size=FLAGS.batch_size)
