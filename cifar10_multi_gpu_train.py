@@ -197,8 +197,8 @@ def train():
     # synchronization point across all towers.
     grads = average_gradients(tower_grads)
 
-    # Add a summary to track the learning rate.
-    summaries.append(tf.summary.scalar('learning_rate', lr))
+    # # Add a summary to track the learning rate.
+    # summaries.append(tf.summary.scalar('learning_rate', lr))
 
     # Add histograms for gradients.
     for grad, var in grads:
@@ -207,7 +207,8 @@ def train():
             tf.summary.histogram(var.op.name + '/gradients', grad))
 
     # Apply the gradients to adjust the shared variables.
-    apply_gradient_op = opt.apply_gradients(grads, global_step=global_step)
+    # apply_gradient_op = opt.apply_gradients(grads, global_step=global_step)
+    apply_gradient_op = opt.apply_gradients(grads)
 
     # Add histograms for trainable variables.
     for var in tf.trainable_variables():
