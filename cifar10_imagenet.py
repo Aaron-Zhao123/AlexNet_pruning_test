@@ -449,6 +449,7 @@ def batch_inputs(dataset, batch_size, train, num_preprocess_threads=None,
       num_preprocess_threads = FLAGS.num_preprocess_threads
 
     if num_preprocess_threads % 4:
+      print(num_preprocess_threads)
       raise ValueError('Please make num_preprocess_threads a multiple '
                        'of 4 (%d % 4 != 0).', num_preprocess_threads)
 
