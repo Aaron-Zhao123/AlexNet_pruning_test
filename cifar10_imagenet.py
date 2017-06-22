@@ -42,7 +42,7 @@ from __future__ import print_function
 
 import tensorflow as tf
 
-NUM_CLASSES = 10
+NUM_CLASSES = 1000
 NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = 100000
 NUM_EXAMPLES_PER_EPOCH_FOR_EVAL = 1000
 
@@ -57,6 +57,7 @@ tf.app.flags.DEFINE_integer('num_preprocess_threads', 4,
                             """Please make this a multiple of 4.""")
 tf.app.flags.DEFINE_integer('num_readers', 4,
                             """Number of parallel readers during train.""")
+IMAGE_SIZE=FLAGS.image_size
 
 # Images are preprocessed asynchronously using multiple threads specified by
 # --num_preprocss_threads and the resulting processed images are stored in a
