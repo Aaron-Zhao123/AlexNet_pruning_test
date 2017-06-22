@@ -128,7 +128,16 @@ def average_gradients(tower_grads):
     grads = []
     for g, _ in grad_and_vars:
       # Add 0 dimension to the gradients to represent the tower.
-      expanded_g = tf.expand_dims(g, 0)
+
+      """gradient clipping"""
+      def ClipIfNotNone(grad):
+          if grad is None:
+              return grad
+          return tf.clip_by_value(grad, -1, 1)
+
+      clipped_grads = ClipIfNotNone(grad)
+
+      expanded_g = tf.expand_dims(clipped_grads, 0)
 
       # Append on a 'tower' dimension which we will average over below.
       grads.append(expanded_g)
