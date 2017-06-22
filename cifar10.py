@@ -157,7 +157,7 @@ def distorted_inputs():
   dataset = ImagenetData(subset=FLAGS.subset)
   assert dataset.data_files()
   if tf.gfile.Exists(FLAGS.train_dir):
-    tf.gfile.Deleterecursively(FLAGS.train_dir)
+    tf.gfile.DeleteRecursively(FLAGS.train_dir)
   tf.gfile.Makedirs(FLAGS.train_dir)
 
   # return cifar10_input.distorted_inputs(data_dir=data_dir,
