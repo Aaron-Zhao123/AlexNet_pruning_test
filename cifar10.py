@@ -44,7 +44,10 @@ import tarfile
 from six.moves import urllib
 import tensorflow as tf
 
-import cifar10_input
+# import cifar10_input
+import cifar10_imagenet
+from imagenet_data import ImagenetData
+
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -55,10 +58,15 @@ tf.app.flags.DEFINE_string('data_dir', '/tmp/cifar10_data',
                            """Path to the CIFAR-10 data directory.""")
 
 # Global constants describing the CIFAR-10 data set.
-IMAGE_SIZE = cifar10_input.IMAGE_SIZE
-NUM_CLASSES = cifar10_input.NUM_CLASSES
-NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = cifar10_input.NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN
-NUM_EXAMPLES_PER_EPOCH_FOR_EVAL = cifar10_input.NUM_EXAMPLES_PER_EPOCH_FOR_EVAL
+# IMAGE_SIZE = cifar10_input.IMAGE_SIZE
+# NUM_CLASSES = cifar10_input.NUM_CLASSES
+# NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = cifar10_input.NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN
+# NUM_EXAMPLES_PER_EPOCH_FOR_EVAL = cifar10_input.NUM_EXAMPLES_PER_EPOCH_FOR_EVAL
+
+IMAGE_SIZE = cifar10_imagenet.IMAGE_SIZE
+NUM_CLASSES = cifar10_imagenet.NUM_CLASSES
+NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = cifar10_imagenet.NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN
+NUM_EXAMPLES_PER_EPOCH_FOR_EVAL = cifar10_imagenet.NUM_EXAMPLES_PER_EPOCH_FOR_EVAL
 
 
 # Constants describing the training process.
@@ -132,7 +140,6 @@ def _variable_with_weight_decay(name, shape, stddev, wd):
     tf.add_to_collection('losses', weight_decay)
   return var
 
-
 def distorted_inputs():
   """Construct distorted input for CIFAR training using the Reader ops.
 
@@ -145,29 +152,39 @@ def distorted_inputs():
   """
   if not FLAGS.data_dir:
     raise ValueError('Please supply a data_dir')
-  data_dir = os.path.join(FLAGS.data_dir, 'cifar-10-batches-bin')
-  return cifar10_input.distorted_inputs(data_dir=data_dir,
+  # data_dir = os.path.join(FLAGS.data_dir, 'cifar-10-batches-bin')
+
+  dataset = ImagenetData(subset=FLAgs.subset)
+  assert dataset.data_files()
+  if tf.gfile.exists(flags.train_dir):
+    tf.gfile.deleterecursively(flags.train_dir)
+  tf.gfile.makedirs(flags.train_dir)
+
+  # return cifar10_input.distorted_inputs(data_dir=data_dir,
+  #                                       batch_size=FLAGS.batch_size)
+  return cifar10_imagenet.distorted_inputs(
+                                        dataset,
                                         batch_size=FLAGS.batch_size)
 
-
-def inputs(eval_data):
-  """Construct input for CIFAR evaluation using the Reader ops.
-
-  Args:
-    eval_data: bool, indicating if one should use the train or eval data set.
-
-  Returns:
-    images: Images. 4D tensor of [batch_size, IMAGE_SIZE, IMAGE_SIZE, 3] size.
-    labels: Labels. 1D tensor of [batch_size] size.
-
-  Raises:
-    ValueError: If no data_dir
-  """
-  if not FLAGS.data_dir:
-    raise ValueError('Please supply a data_dir')
-  data_dir = os.path.join(FLAGS.data_dir, 'cifar-10-batches-bin')
-  return cifar10_input.inputs(eval_data=eval_data, data_dir=data_dir,
-                              batch_size=FLAGS.batch_size)
+#
+# def inputs(eval_data):
+#   """Construct input for CIFAR evaluation using the Reader ops.
+#
+#   Args:
+#     eval_data: bool, indicating if one should use the train or eval data set.
+#
+#   Returns:
+#     images: Images. 4D tensor of [batch_size, IMAGE_SIZE, IMAGE_SIZE, 3] size.
+#     labels: Labels. 1D tensor of [batch_size] size.
+#
+#   Raises:
+#     ValueError: If no data_dir
+#   """
+#   if not FLAGS.data_dir:
+#     raise ValueError('Please supply a data_dir')
+#   data_dir = os.path.join(FLAGS.data_dir, 'cifar-10-batches-bin')
+#   return cifar10_input.inputs(eval_data=eval_data, data_dir=data_dir,
+#                               batch_size=FLAGS.batch_size)
 
 
 def inference(images):
