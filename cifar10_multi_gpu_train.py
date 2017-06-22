@@ -135,7 +135,7 @@ def average_gradients(tower_grads):
               return grad
           return tf.clip_by_value(grad, -1, 1)
 
-      clipped_grads = ClipIfNotNone(grad)
+      clipped_grads = ClipIfNotNone(g)
 
       expanded_g = tf.expand_dims(clipped_grads, 0)
 
