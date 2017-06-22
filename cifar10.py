@@ -154,11 +154,11 @@ def distorted_inputs():
     raise ValueError('Please supply a data_dir')
   # data_dir = os.path.join(FLAGS.data_dir, 'cifar-10-batches-bin')
 
-  dataset = ImagenetData(subset=flags.subset)
+  dataset = ImagenetData(subset=FLAGS.subset)
   assert dataset.data_files()
-  if tf.gfile.exists(flags.train_dir):
-    tf.gfile.deleterecursively(flags.train_dir)
-  tf.gfile.makedirs(flags.train_dir)
+  if tf.gfile.exists(FLAGS.train_dir):
+    tf.gfile.deleterecursively(FLAGS.train_dir)
+  tf.gfile.makedirs(FLAGS.train_dir)
 
   # return cifar10_input.distorted_inputs(data_dir=data_dir,
   #                                       batch_size=FLAGS.batch_size)
