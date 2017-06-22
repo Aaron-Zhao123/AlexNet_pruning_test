@@ -100,7 +100,7 @@ def tower_loss(scope):
     # Name each loss as '(raw)' and name the moving average version of the loss
     # as the original loss name.
     tf.summary.scalar(loss_name +' (raw)', l)
-    tf.summary.scalar(loss_name, loss_averages.average(l))
+    # tf.summary.scalar(loss_name, loss_averages.average(l))
 
   # with tf.control_dependencies([loss_averages_op]):
   total_loss = tf.identity(total_loss)
