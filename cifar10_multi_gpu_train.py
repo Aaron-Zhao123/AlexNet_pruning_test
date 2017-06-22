@@ -8,7 +8,7 @@
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, eitherss or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
@@ -99,8 +99,8 @@ def tower_loss(scope):
     loss_name = re.sub('%s_[0-9]*/' % cifar10.TOWER_NAME, '', l.op.name)
     # Name each loss as '(raw)' and name the moving average version of the loss
     # as the original loss name.
-    tf.scalar_summary(loss_name +' (raw)', l)
-    tf.scalar_summary(loss_name, loss_averages.average(l))
+    tf.summary.scalar(loss_name +' (raw)', l)
+    tf.summary.scalar(loss_name, loss_averages.average(l))
 
   with tf.control_dependencies([loss_averages_op]):
     total_loss = tf.identity(total_loss)
@@ -196,7 +196,7 @@ def train():
     grads = average_gradients(tower_grads)
 
     # Add a summary to track the learning rate.
-    summaries.append(tf.scalar_summary('learning_rate', lr))
+    summaries.append(tf.summary.scalar('learning_rate', lr))
 
     # Add histograms for gradients.
     for grad, var in grads:
